@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071712">
+  <meta name="description" content="Aplikasi web interaktif untuk belajar Fiqih Islam dengan 10 soal kuis teruji, dalil shahih, dan pembahasan ilmiah mendalam.">
+  <meta name="keywords" content="belajar fiqih, kuis fiqih, fiqih islam, soal fiqih, thaharah, shalat, zakat, puasa">
+  <title>FiqihPintar - Kuis & Belajar Fiqih Islam Interaktif</title>
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕌</text></svg>">
+</head>
+<body>
+
+  <!-- Confetti Canvas for Victory -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Top App Navigation Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="#" class="brand-wrapper" id="brand-link">
+        <div class="brand-icon">🕌</div>
+        <div class="brand-text">
+          <h1>FiqihPintar <span style="font-size: 0.75rem; color: var(--gold-light); font-weight: normal;">• فقه</span></h1>
+          <p>Belajar Fiqih Praktis & Mandiri</p>
+        </div>
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" id="sound-toggle-btn" title="Aktifkan / Bisukan Suara">
+          <span id="sound-icon">🔊</span>
+          <span id="sound-text">Suara: On</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    
+    <!-- Bismillah Decor Header -->
+    <div class="bismillah-card">
+      <div class="bismillah-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+      <div class="bismillah-sub">"Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang"</div>
+    </div>
+
+    <!-- VIEW 1: WELCOME SCREEN -->
+    <section class="glass-panel welcome-view" id="welcome-view">
+      <div class="welcome-badge">✨ Uji Pemahaman Syariat Islam</div>
+      <h2 class="welcome-title">Selamat Datang di Kuis Fiqih Islam</h2>
+      <p class="welcome-desc">
+        Tingkatkan wawasan dan pemahaman ibadah harian Anda melalui 10 soal kuis pilihan ganda yang dirancang komprehensif, dilengkapi dalil Al-Qur'an, Hadits shahih, dan pembahasan ilmiah menurut madzhab yang muktamad.
+      </p>
+
+      <!-- Topic Highlights Grid -->
+      <div class="features-grid">
+        <div class="feature-item">
+          <span class="feature-icon">💧</span>
+          <h3 class="feature-title">Thaharah (Bersuci)</h3>
+          <p class="feature-text">Rukun wudhu & tata cara mensucikan najis mughalladhah.</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🕌</span>
+          <h3 class="feature-title">Shalat & Rukhshah</h3>
+          <p class="feature-text">Syarat sah, sujud sahwi, serta shalat jamak dan qashar.</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🌙</span>
+          <h3 class="feature-title">Puasa & Zakat</h3>
+          <p class="feature-text">Ketentuan batalnya shaum dan waktu wajib zakat fitrah.</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">⚖️</span>
+          <h3 class="feature-title">Jenazah & Muamalah</h3>
+          <p class="feature-text">Fardhu kifayah jenazah, rukun haji, dan fiqih jual beli.</p>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="start-quiz-btn">
+        <span>Mulai Kuis Fiqih Sekarang</span>
+        <span>➔</span>
+      </button>
+    </section>
+
+    <!-- VIEW 2: QUIZ INTERACTION SCREEN -->
+    <section class="glass-panel quiz-view" id="quiz-view" style="display: none;">
+      <!-- Quiz Header & Meta -->
+      <div class="quiz-header">
+        <div class="quiz-meta-bar">
+          <div class="quiz-category-tag" id="quiz-category">
+            <span id="quiz-topic-icon">💧</span>
+            <span id="quiz-category-name">Thaharah</span>
+          </div>
+          <div class="quiz-progress-counter">
+            <span>Soal</span>
+            <span id="current-q-index">1</span>
+            <span>dari</span>
+            <span id="total-q-count">10</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+          <div class="progress-fill" id="progress-bar-fill" style="width: 10%;"></div>
+        </div>
+      </div>
+
+      <!-- Question Content -->
+      <div class="question-container">
+        <h2 class="question-text" id="question-text">Memuat pertanyaan...</h2>
+        
+        <!-- Hint Button -->
+        <button class="hint-toggle-btn" id="hint-btn">
+          <span>💡</span> Butuh Petunjuk Dalil?
+        </button>
+        <div class="hint-box" id="hint-box"></div>
+      </div>
+
+      <!-- Options List -->
+      <div class="options-list" id="options-container">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+      <!-- Explanation Card (Shows immediately after selection) -->
+      <div class="explanation-card" id="explanation-card">
+        <div class="explanation-header" id="explanation-header">
+          <span id="explanation-status-icon">✓</span>
+          <span id="explanation-status-text">Jawaban Benar!</span>
+        </div>
+        <div class="explanation-body" id="explanation-body">
+          <!-- Explanation text inserted dynamically -->
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="quiz-footer-actions">
+        <button class="btn-primary" id="next-q-btn" style="display: none;">
+          <span id="next-btn-text">Soal Selanjutnya</span>
+          <span>➔</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: RESULTS SCREEN -->
+    <section class="glass-panel results-view" id="results-view" style="display: none;">
+      <div class="result-badge" id="result-badge">🏆 Ahli Fiqih Pratama</div>
+      
+      <div class="result-score-circle">
+        <div class="result-score-num" id="result-score-val">100</div>
+        <div class="result-score-max">Skor Akhir</div>
+      </div>
+
+      <div class="result-arabic-title" id="result-arabic-title">ممتاز (Mumtaz)</div>
+      <h2 class="result-title" id="result-title">Sangat Sempurna!</h2>
+      <p class="result-message" id="result-message">
+        Masya Allah, luar biasa! Pemahaman fiqih ibadah dan muamalah Anda sangat mendalam dan matang.
+      </p>
+
+      <!-- Stats Grid -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-val correct" id="stat-correct">10</div>
+          <div class="stat-label">Jawaban Benar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val wrong" id="stat-wrong">0</div>
+          <div class="stat-label">Jawaban Salah</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val time" id="stat-accuracy">100%</div>
+          <div class="stat-label">Tingkat Akurasi</div>
+        </div>
+      </div>
+
+      <!-- Result Buttons -->
+      <div class="results-action-buttons">
+        <button class="btn-primary" id="restart-quiz-btn">
+          <span>🔄 Ulangi Kuis</span>
+        </button>
+        <button class="btn-secondary" id="scroll-review-btn">
+          <span>📋 Lihat Pembahasan Lengkap</span>
+        </button>
+      </div>
+
+      <!-- Detailed Review Accordion Section -->
+      <div class="review-section" id="review-section">
+        <div class="review-section-header">
+          <h3>📖 Pembahasan Lengkap 10 Soal Kuis</h3>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Klik setiap soal untuk melihat dalil & rincian</span>
+        </div>
+        <div id="review-list-container">
+          <!-- Accordion items inserted by app.js -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>© 2026 <strong>FiqihPintar</strong> — Media Belajar Fiqih Islam Interaktif. Dirancang untuk memperdalam pemahaman ibadah umat.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
